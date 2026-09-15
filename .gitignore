@@ -1,0 +1,46 @@
+# Python generated files
+__pycache__/
+*.py[cod]
+
+# IAR EWARM generated files
+/EWARM/eth2i3c/
+/EWARM/settings/
+BrowseInfo/
+Exe/
+Obj/
+List/
+.ninja_deps
+.ninja_log
+build.ninja
+*.pbi
+*.pbd
+*.pbw
+*.xcl
+
+# STM32CubeIDE build directories
+Debug/
+Release/
+
+# Compiler and linker outputs
+*.o
+*.obj
+*.d
+*.su
+*.cyclo
+*.elf
+*.out
+*.bin
+*.hex
+*.srec
+*.sim
+*.map
+*.list
+*.lst
+*.elf.proxy_cache
+
+# Logs and editor-local files
+*.log
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db

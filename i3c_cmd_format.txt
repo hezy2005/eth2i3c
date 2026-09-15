@@ -1,0 +1,90 @@
+eth2i3c I2C/I3C Command Protocol
+================================
+
+Transport
+---------
+
+- TCP server: 192.168.1.212:1000
+- One ASCII command per line; CR, LF, or CRLF is accepted.
+- Command names are case-insensitive. Parameters are separated by spaces.
+- Decimal and 0x-prefixed hexadecimal numbers are accepted.
+- Success starts with "$0000;<>". Errors start with "$xxxx;<> message".
+
+Register transfers
+------------------
+
+Current read:
+
+    *TWI <length>
+
+Random read (write one-byte register address, repeated START, then read):
+
+    *TWI <length> <register>
+
+Random write (the length is the number of data bytes, excluding the register address):
+
+    *TWI <length> <register> <data0> ... <dataN>
+
+Examples:
+
+    *TWI 4 0x01 0x10 0x20 0x30 0x40
+    *TWI 4 0x01
+    *TWI 4
+
+The transfer uses the active Target's selected protocol. I2C uses its SA; I3C uses its DA.
+
+I3C bus and CCC commands
+------------------------
+
+    *I3C_RSTDAA
+    *I3C_ENTDAA
+    *I3C_GETPID
+    *I3C_GETBCR
+    *I3C_GETDCR
+    *I3C_GETMWL
+    *I3C_GETMRL
+    *I3C_GETSTATUS
+    *I3C_SETMWL <high-byte> <low-byte>
+    *I3C_SETMRL <high-byte> <low-byte>
+    *I3C_ENEC <event-mask>
+    *I3C_DISEC <event-mask>
+
+RSTDAA clears cached dynamic addresses. ENTDAA assigns addresses starting at 0x10 and returns the number of
+targets assigned in that operation. Direct CCC commands operate on the active I3C Target.
+
+Target table commands
+---------------------
+
+    *I3C_TARGET_LIST
+    *I3C_TARGET_CREATE_BY_SA <sa>
+    *I3C_TARGET_SET_ACTIVE_BY_SA <sa>
+    *I3C_TARGET_SET_ACTIVE_BY_DA <da>
+    *I3C_TARGET_BIND <sa> <da>
+    *I3C_TARGET_NEGOTIATE_I3C_BY_SA <sa>
+    *I3C_TARGET_SET_PROTOCOL_BY_SA <sa> <protocol>
+    *I3C_TARGET_SET_PROTOCOL_BY_DA <da> <protocol>
+
+Protocol is 0 for I2C and 1 for I3C.
+
+TARGET_LIST response data is:
+
+    <count> [<sa> <da> <protocol> <is-active> <64-bit-payload>]...
+
+An address value of zero means that the entry does not have that address type. TARGET_BIND merges an SA-only
+entry and a DA-only entry and selects I3C for the merged entry.
+
+Other
+-----
+
+    *HELP
+
+There are no controller-selection, monitor, fan, power, or GPIO commands.
+
+Error codes
+-----------
+
+- 0x0001: invalid command
+- 0x0004: missing/wrong parameter count
+- 0x0008: operation failed
+- 0x0010: timeout
+- 0x0040: parameter out of range

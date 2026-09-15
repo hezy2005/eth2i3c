@@ -1,0 +1,4 @@
+[Groups]
+Application=Src;Inc;
+Python=python/i3c.py;
+Doc=README.md;README-CN.md;i3c_cmd_format.txt;
