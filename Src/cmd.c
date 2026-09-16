@@ -454,14 +454,18 @@ static void CmdHandleTargetList(void)
     for (index = 0U; index < TARGET_MAX_COUNT; ++index)
     {
         const TargetEntry_t *entry = TargetGetEntry((uint8_t)index);
+        uint32_t payloadHigh;
+        uint32_t payloadLow;
 
         if ((entry == NULL) || ((entry->sa == 0U) && (entry->da == 0U)))
         {
             continue;
         }
-        if (!CmdAppend(" 0x%02X 0x%02X %u %u 0x%016llX", entry->sa, entry->da,
+        payloadHigh = (uint32_t)(entry->payload >> 32U);
+        payloadLow = (uint32_t)entry->payload;
+        if (!CmdAppend(" 0x%02X 0x%02X %u %u 0x%08lX%08lX", entry->sa, entry->da,
                        (unsigned)entry->protocol, (unsigned)(entry == controller->activeTarget),
-                       (unsigned long long)entry->payload))
+                       (unsigned long)payloadHigh, (unsigned long)payloadLow))
         {
             ControllerBusRelease();
             CmdSetError(CMD_ERROR_FAILURE, "target list response too long");

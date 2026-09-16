@@ -69,12 +69,13 @@ static BaseType_t TcpServerServeClient(Socket_t clientSocket)
             /* An idle client is still connected; the configured receive timeout expired. */
             continue;
         }
-        if (received <= 0)
+        if ((received == 0) || (received == FREERTOS_ECLOSED))
         {
-            if (received < 0)
-            {
-                printf("TCP receive failed: %ld\r\n", (long)received);
-            }
+            return pdPASS;
+        }
+        if (received < 0)
+        {
+            printf("TCP receive failed: %ld\r\n", (long)received);
             return pdFAIL;
         }
 
