@@ -40,7 +40,15 @@ Release/
 
 # Logs and editor-local files
 *.log
+/STM32CubeIDE/.settings/com.st.stm32cube.ide.mcu.sfrview.prefs
 .idea/
 .vscode/
 .DS_Store
 Thumbs.db
+
+# Original portfolio captures; publish only selected copies in docs/images
+/docs/images/source/
+
+# Local vendor reference PDFs; link to current official copies from public docs
+/docs/vendor/
+/docs/*.pdf
