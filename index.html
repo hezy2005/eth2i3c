@@ -4,53 +4,48 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>eth2i3c</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@5.8.1/github-markdown.min.css">
     <style>
-        :root {
-            color-scheme: light dark;
-            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-        }
-
         body {
-            display: grid;
-            min-height: 100vh;
-            margin: 0;
-            place-items: center;
-            background: #f4f7fb;
-            color: #172033;
+            box-sizing: border-box;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 45px;
         }
 
-        main {
-            width: min(90%, 640px);
-            padding: 2.5rem;
-            border: 1px solid #d9e2ef;
-            border-radius: 16px;
-            background: #ffffff;
-            box-shadow: 0 12px 32px rgb(23 32 51 / 10%);
-            text-align: center;
+        .error {
+            color: #b42318;
         }
 
-        h1 {
-            margin-top: 0;
-        }
-
-        @media (prefers-color-scheme: dark) {
+        @media (max-width: 767px) {
             body {
-                background: #111827;
-                color: #e5e7eb;
-            }
-
-            main {
-                border-color: #374151;
-                background: #1f2937;
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <main>
-        <h1>eth2i3c</h1>
-        <p>GitHub Pages 测试页面</p>
-        <p>如果你能看到这段文字，说明网页已经成功发布。</p>
+    <main id="readme" class="markdown-body">
+        <p>正在加载 README.md…</p>
     </main>
+
+    <script type="module">
+        import { marked } from "https://cdn.jsdelivr.net/npm/marked@15.0.7/lib/marked.esm.js";
+
+        const readme = document.getElementById("readme");
+
+        try {
+            const response = await fetch("README.md");
+
+            if (!response.ok) {
+                throw new Error(`README.md 加载失败：HTTP ${response.status}`);
+            }
+
+            const markdown = await response.text();
+            readme.innerHTML = marked.parse(markdown);
+        } catch (error) {
+            readme.innerHTML = `<p class="error">无法加载 README.md：${error.message}</p>`;
+        }
+    </script>
 </body>
 </html>
