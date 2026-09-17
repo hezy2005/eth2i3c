@@ -1,6 +1,6 @@
 # eth2i3c：基于 STM32H563 的以太网转 I2C/I3C 网关
 
-`eth2i3c` 是运行在 STM32H563 上的嵌入式协议网关。PC 通过 TCP 发送命令，网关完成 I2C/I3C
+<a href="https://github.com/hezy2005/eth2i3c"><code>eth2i3c</code></a> 是运行在 STM32H563 上的嵌入式协议网关。PC 通过 TCP 发送命令，网关完成 I2C/I3C
 目标发现、CCC 操作和寄存器访问，并将结果返回给 Python 客户端。
 
 项目使用 FreeRTOS、CMSIS-RTOS2 和 FreeRTOS+TCP，面向硬件调试、器件验证及 I3C 协议学习。
