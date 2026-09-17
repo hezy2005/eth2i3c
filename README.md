@@ -6,15 +6,21 @@
 项目使用 FreeRTOS、CMSIS-RTOS2 和 FreeRTOS+TCP，面向硬件调试、器件验证及 I3C 协议学习。
 配套 Target 固件位于 [eth2i3c_target](https://github.com/hezy2005/eth2i3c_target)。
 
-![两块 STM32H563 开发板组成的 Controller/Target 测试环境](docs/images/stm32h563-controller-target.png)
+![两块 STM32H563 开发板组成的 Controller/Target 测试环境](docs/images/stm32h563-controller-target.jpg)
 
 ## 系统结构
 
-```mermaid
-flowchart LR
-    PC["PC / Python 客户端"] -->|"TCP 端口 1000"| Controller["STM32H563 Controller<br/>FreeRTOS+TCP"]
-    Controller -->|"I3C1：PB8 / PB9"| Target["I3C/I2C Target"]
-    Target -. "配套测试固件" .-> TargetRepo["eth2i3c_target"]
+```text
+┌──────────────────┐      TCP :1000       ┌──────────────────────────────┐
+│ PC / Python 客户端 │ ───────────────────> │ STM32H563 Controller         │
+└──────────────────┘                       │ FreeRTOS + FreeRTOS-Plus-TCP │
+                                           └──────────────┬───────────────┘
+                                                          │ I3C1: PB8 / PB9
+                                                          ▼
+                                           ┌──────────────────────────────┐
+                                           │ I3C/I2C Target               │
+                                           │ 可使用配套 eth2i3c_target    │
+                                           └──────────────────────────────┘
 ```
 
 数据链路分为三层：
@@ -62,7 +68,7 @@ I3C1。
 说明 Controller 能够与不同厂商的 I3C Target 协同工作。该 ADI Target 仅用于兼容性测试，不属于
 `eth2i3c_target` 项目。
 
-![STM32H563 Controller 与 ADI Target 兼容性验证](docs/images/stm32h563-external-target.png)
+![STM32H563 Controller 与 ADI Target 兼容性验证](docs/images/stm32h563-external-target.jpg)
 
 ## 实机验证
 
